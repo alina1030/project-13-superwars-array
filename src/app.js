@@ -23,10 +23,20 @@ const PLAYERS = [
 
 // initialize players with image and strength
 const initPlayers = (players) => {
-    let detailedPlayers = '';
+    let detailedPlayers = [];
 
     // Instead of forloop use Map method
     // Code here
+    players.map((players,i) =>
+    {
+        let player={};
+        player.name=players[i];
+        player.strength = Math.ceil(Math.random() * 100);
+        player.image = `images/super-${i + 1}.png`;
+        player.type = i%2 == 0 ? "hero":"villain";
+        detailedPlayers.push(Object.assign({}, player));
+
+    });
 
     return detailedPlayers;
 }
@@ -37,16 +47,37 @@ const getRandomStrength = () => {
 }
 
 // Build player template
+
 const buildPlayers = (players, type) => {
     let fragment = '';
-
-    // Instead of using for loop
-    // Use chaining of Array methods - filter, map and join
+    
+    // Loop through players and accumulate HTML template
+    // depending of type of player(hero|villain)
     // Type your code here
-
-    return fragment;
+    for(i=0;i<players.length;i++)
+    {
+    if(players[i].type==type){
+    fragment += `<div class="player">
+   <img src="${players[i].image}" alt="">
+   <div class="name">${players[i].name}</div>
+   <div class="strength">${players[i].strength}</div>
+    </div>`
+   }
+   else
+   {
+      
+      
+        fragment += `<div class="player">
+       <img src="${players[i].image}" alt="">
+       <div class="name">${players[i].name}</div>
+       <div class="strength">${players[i].strength}</div>
+        </div>`
+      
+   }  
 }
 
+    return fragment;
+};
 // Display players in HTML
 const viewPlayers = (players) => {
     document.getElementById('heroes').innerHTML = buildPlayers(players, 'hero');
